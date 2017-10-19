@@ -5,16 +5,23 @@ namespace App\Controllers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+use App\Providers\FacebookProvider;
+
 class ProfileFacebookController
 {
+    protected $facebookProvider;
+
+    public function __construct(FacebookProvider $facebookProvider)
+    {
+        $this->facebookProvider = $facebookProvider;
+    }
+
     public function get(Request $request, Response $response, $args = [])
     {
-        $id = $args['id'];
+        $id = (int)$args['id'];
 
-        return $response->withJson([
-            'id'        => (int)$id,
-            'firstName' => 'Juan',
-            'lastName'  => 'Perez'
-        ]);
+        $profile = $this->facebookProvider->getUserProfileByFbId($id);
+
+        return $response->withJson($profile);
     }
 }

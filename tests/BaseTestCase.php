@@ -36,7 +36,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $environment = Environment::mock(
             [
                 'REQUEST_METHOD' => $requestMethod,
-                'REQUEST_URI' => $requestUri
+                'REQUEST_URI'    => $requestUri
             ]
         );
 
@@ -58,7 +58,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $app = new App();
 
         // Set up dependencies
-        //require __DIR__ . '/../../src/dependencies.php';
+        require __DIR__ . '/../bootstrap/dependencies.php';
 
         // Register middleware
         if ($this->withMiddleware) {
