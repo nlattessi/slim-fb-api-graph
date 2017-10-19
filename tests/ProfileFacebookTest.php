@@ -17,4 +17,18 @@ class ProfileFacebookTest extends BaseTestCase
             "lastName"  => "Perez",
         ]);
     }
+
+    public function testGetProfileWithoutId()
+    {
+        $response = $this->runApp('GET', '/profile/facebook');
+
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    public function testGetProfileWithIdNotInt()
+    {
+        $response = $this->runApp('GET', '/profile/facebook/asd');
+
+        $this->assertEquals(404, $response->getStatusCode());
+    }
 }
