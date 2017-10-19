@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-class HelloNameTest extends BaseTestCase
+class HelloControllerTest extends BaseTestCase
 {
     public function testGetHelloNameWithGreeting()
     {
