@@ -9,8 +9,9 @@ use Facebook\Exceptions\FacebookSDKException;
 class FacebookProvider
 {
     protected $fb;
+    protected $defaultFields;
 
-    public function __construct($appId, $appSecret, $defaultGraphVersion)
+    public function __construct($appId, $appSecret, $defaultGraphVersion, $defaultFields)
     {
         $this->fb = new Facebook([
             'app_id'                => $appId,
@@ -21,11 +22,16 @@ class FacebookProvider
         $this->fb->setDefaultAccessToken(
             $this->fb->getApp()->getAccessToken()
         );
+
+        $this->defaultFields = $defaultFields;
     }
 
     public function getUserProfileByFbId($fbId, $extraFields = [])
     {
-        $response = $this->fb->get("/{$fbId}?fields=id,first_name,last_name");
+        $fieldsToQuery = array_merge($this->defaultFields, $extraFields);
+        $fields        = implode(',', $fieldsToQuery);
+
+        $response = $this->fb->get("/{$fbId}?fields={$fields}");
 
         $fbUser = $response->getGraphUser();
 

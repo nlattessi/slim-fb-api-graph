@@ -11,7 +11,8 @@ $container['facebookProvider'] = function ($container) {
     return new FacebookProvider(
         $fbSettings['app_id'],
         $fbSettings['app_secret'],
-        $fbSettings['default_graph_version']
+        $fbSettings['default_graph_version'],
+        $fbSettings['defaultFields']
     );
 };
 
