@@ -6,10 +6,12 @@ use App\Providers\FacebookProvider;
 $container = $app->getContainer();
 
 $container['facebookProvider'] = function ($container) {
+    $fbSettings = $container->get('settings')['facebook'];
+
     return new FacebookProvider(
-        '1662204533855030',
-        '05dc613a98d081364c4cb13402b6811a',
-        'v2.10'
+        $fbSettings['app_id'],
+        $fbSettings['app_secret'],
+        $fbSettings['default_graph_version']
     );
 };
 
@@ -17,4 +19,19 @@ $container[ProfileFacebookController::class] = function ($container) {
     return new ProfileFacebookController(
         $container->get('facebookProvider')
     );
+};
+
+$container['errorHandler'] = function ($container) {
+    return function ($request, $response, $exception) use ($container) {
+
+        $data = [
+            'code'    => $exception->getCode(),
+            'message' => $exception->getMessage(),
+        ];
+
+        return $container['response']
+            ->withStatus(500)
+            ->withHeader('Content-Type', 'application/json')
+            ->write(json_encode(['error' => $data]));
+    };
 };

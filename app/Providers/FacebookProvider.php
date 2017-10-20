@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
+use Facebook\Facebook;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
+
 class FacebookProvider
 {
     protected $fb;
 
     public function __construct($appId, $appSecret, $defaultGraphVersion)
     {
-        $this->fb = new \Facebook\Facebook([
+        $this->fb = new Facebook([
             'app_id'                => $appId,
             'app_secret'            => $appSecret,
             'default_graph_version' => $defaultGraphVersion
@@ -19,12 +23,16 @@ class FacebookProvider
         );
     }
 
-    public function getUserProfileByFbId($fbId)
+    public function getUserProfileByFbId($fbId, $extraFields = [])
     {
+        $response = $this->fb->get("/{$fbId}?fields=id,first_name,last_name");
+
+        $fbUser = $response->getGraphUser();
+
         return [
-            'id'        => $fbId,
-            'firstName' => 'Juan',
-            'lastName'  => 'Perez'
+            'id'        => $fbUser->getId(),
+            'firstName' => $fbUser->getFirstName(),
+            'lastName'  => $fbUser->getLastName(),
         ];
     }
 }

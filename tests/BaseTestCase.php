@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class taken from
+ * https://github.com/slimphp/Slim-Skeleton/blob/master/tests/Functional/BaseTestCase.php
+ */
+
 namespace Tests;
 
 use Slim\App;
@@ -52,10 +57,10 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         // Use the application settings
-        //$settings = require __DIR__ . '/../../src/settings.php';
+        $settings = require __DIR__ . '/../config/app.php';
 
         // Instantiate the application
-        $app = new App();
+        $app = new App($settings);
 
         // Set up dependencies
         require __DIR__ . '/../bootstrap/dependencies.php';
