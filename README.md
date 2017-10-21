@@ -3,7 +3,7 @@
 ## Instrucciones
 * Clonar repo
 * Ejecutar: `composer update`
-* Agregar settings de Facebook en: `config/app.php`
+* Agregar settings de Facebook (_app_id_ y _app_secret_) en: `config/app.php`
 * Correr tests con: `composer test`
 * Levantar web server local con: `composer start`
 
